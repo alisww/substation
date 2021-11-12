@@ -474,7 +474,7 @@ fn setting(input: &str) -> IResult<&str, Option<(&str, &str)>> {
             separated_pair(is_not(":"), char(':'), not_line_ending),
             line_ending,
         )(input.trim_start())?;
-        Ok((input, Some((k, v))))
+        Ok((input, Some((k.trim_start(), v.trim_start()))))
     }
 }
 
