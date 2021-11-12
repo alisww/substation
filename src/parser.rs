@@ -480,8 +480,8 @@ fn setting(input: &str) -> IResult<&str, Option<(&str, &str)>> {
 
 pub fn subtitle<'a>(input: &'a str, definition: &'a Vec<String>) -> IResult<&'a str, Entry> {
     let mut entry = Entry::default();
-    let (input, kind) = terminated(is_not(":"), char(':'))(input)?;
-    entry.kind = kind.to_owned();
+    let (input, kind) = opt(terminated(is_not(":,"), char(':')))(input)?;
+    entry.kind = kind.map(|v| v.to_owned());
 
     let (input, settings) =
         many_m_n(1, 9, terminated(opt(is_not(",")), char(',')))(input.trim_start())?;

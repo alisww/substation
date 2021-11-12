@@ -41,7 +41,7 @@ pub struct Style {
 
 #[derive(Default, Clone, Debug)]
 pub struct Entry {
-    pub kind: String,
+    pub kind: Option<String>,
     pub layer: Option<isize>,
     pub start: Option<Duration>,
     pub end: Option<Duration>,
