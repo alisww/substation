@@ -463,13 +463,19 @@ fn line_list(input: &str) -> IResult<&str, Vec<&str>> {
     )(input)
 }
 
-fn setting(input: &str) -> IResult<&str, (&str, &str)> {
+fn setting(input: &str) -> IResult<&str, Option<(&str, &str)>> {
     peek(not(line_ending))(input)?;
     peek(not(char('[')))(input)?;
-    terminated(
-        separated_pair(is_not(":"), char(':'), not_line_ending),
-        line_ending,
-    )(input.trim_start())
+    let (input, comment) = opt(delimited(ws(char(';')), not_line_ending, line_ending))(input)?;
+    if comment.is_some() {
+        Ok((input, None))
+    } else {
+        let (input, (k, v)) = terminated(
+            separated_pair(is_not(":"), char(':'), not_line_ending),
+            line_ending,
+        )(input.trim_start())?;
+        Ok((input, Some((k, v))))
+    }
 }
 
 pub fn subtitle<'a>(input: &'a str, definition: &'a Vec<String>) -> IResult<&'a str, Entry> {
@@ -566,7 +572,13 @@ pub fn section(input: &str) -> IResult<&str, Section> {
                     name: header.to_string(),
                     settings: options
                         .into_iter()
-                        .map(|(k, v)| (k.to_owned(), v.to_owned()))
+                        .filter_map(|o| {
+                            if let Some((k, v)) = o {
+                                Some((k.to_owned(), v.to_owned()))
+                            } else {
+                                None
+                            }
+                        })
                         .collect(),
                 },
             ))
