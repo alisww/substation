@@ -483,8 +483,11 @@ pub fn subtitle<'a>(input: &'a str, definition: &'a Vec<String>) -> IResult<&'a 
     let (input, kind) = opt(terminated(is_not(":,"), char(':')))(input)?;
     entry.kind = kind.map(|v| v.to_owned());
 
-    let (input, settings) =
-        many_m_n(1, 9, terminated(opt(is_not(",")), char(',')))(input.trim_start())?;
+    let (input, settings) = many_m_n(
+        1,
+        definition.len() - 1,
+        terminated(opt(is_not(",")), char(',')),
+    )(input.trim_start())?;
     for (n, possible_val) in settings.into_iter().enumerate() {
         if let Some(val) = possible_val {
             match definition[n].as_str() {
