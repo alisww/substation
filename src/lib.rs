@@ -51,6 +51,7 @@ pub struct Entry {
     pub margin_r: Option<usize>,
     pub margin_v: Option<usize>,
     pub effect: Option<String>,
+    pub read_order: Option<isize>,
     pub text: Vec<TextSection>,
 }
 

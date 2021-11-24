@@ -500,6 +500,7 @@ pub fn subtitle<'a>(input: &'a str, definition: &'a Vec<String>) -> IResult<&'a 
                 "MarginR" => entry.margin_r = val.parse::<usize>().ok(),
                 "MarginV" => entry.margin_v = val.parse::<usize>().ok(),
                 "Effect" => entry.effect = Some(val.to_owned()),
+                "ReadOrder" => entry.read_order = val.parse::<isize>().ok(),
                 _ => (),
             }
         }
