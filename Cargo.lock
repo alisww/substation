@@ -26,10 +26,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "parsing-utils"
+version = "0.1.0"
+dependencies = [
+ "nom",
+]
+
+[[package]]
+name = "subrip"
+version = "0.1.0"
+dependencies = [
+ "nom",
+ "parsing-utils",
+]
+
+[[package]]
 name = "substation"
 version = "0.1.0"
 dependencies = [
  "nom",
+ "parsing-utils",
 ]
 
 [[package]]

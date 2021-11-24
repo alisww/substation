@@ -1,4 +1,4 @@
-use crate::{utils::*, *};
+use crate::*;
 use nom::{
     branch::alt,
     bytes::complete::{is_not, tag, take_until, take_while},
@@ -8,6 +8,7 @@ use nom::{
     sequence::{delimited, pair, preceded, separated_pair, terminated, tuple},
     IResult,
 };
+use parsing_utils::*;
 use std::collections::HashMap;
 use std::time::Duration;
 
@@ -590,6 +591,6 @@ pub fn section(input: &str) -> IResult<&str, Section> {
     }
 }
 
-pub fn section_with_input(input: &str) -> IResult<&str, (&str,Section)> {
+pub fn section_with_input(input: &str) -> IResult<&str, (&str, Section)> {
     consumed(section)(input)
 }

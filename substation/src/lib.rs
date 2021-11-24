@@ -2,7 +2,6 @@ use std::collections::HashMap;
 use std::time::Duration;
 
 pub mod parser;
-pub mod utils;
 
 #[derive(Clone, Debug)]
 pub struct Color {
