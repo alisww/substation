@@ -52,23 +52,12 @@ pub struct Entry {
     pub margin_v: Option<usize>,
     pub effect: Option<String>,
     pub read_order: Option<isize>,
-    pub text: Vec<TextSection>,
+    pub text: String,
 }
 
 impl Entry {
-    pub fn plain_text(&self) -> String {
-        let s = self
-            .text
-            .iter()
-            .filter_map(|v| {
-                if let TextSection::Text(s) = v {
-                    Some(s.clone())
-                } else {
-                    None
-                }
-            })
-            .collect::<Vec<String>>();
-        s.join("")
+    pub fn parsed_text(&self) -> Vec<TextSection> {
+        parser::text_line(&self.text).unwrap().1
     }
 }
 

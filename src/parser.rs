@@ -423,7 +423,7 @@ fn text(input: &str) -> IResult<&str, TextSection> {
     map(is_not("{"), |v: &str| TextSection::Text(v.to_owned()))(input)
 }
 
-fn text_line(input: &str) -> IResult<String, Vec<TextSection>> {
+pub fn text_line(input: &str) -> IResult<String, Vec<TextSection>> {
     let mut sections: Vec<TextSection> = Vec::new();
     let (input, sect) = alt((text, style_override))(input).map_err(|e| e.to_owned())?;
     let mut input = input.to_owned();
@@ -507,7 +507,8 @@ pub fn subtitle<'a>(input: &'a str, definition: &'a Vec<String>) -> IResult<&'a 
     }
 
     if !input.is_empty() {
-        entry.text = text_line(input).unwrap().1; // todo: don't
+        entry.text = input.to_owned();
+        // text_line(input).unwrap().1; // todo: don't
     }
 
     Ok((input, entry))
