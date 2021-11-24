@@ -12,10 +12,10 @@ use std::time::Duration;
 
 #[derive(Debug, Clone)]
 pub struct Entry {
-    index: u32,
-    start: Duration,
-    end: Duration,
-    text: String,
+    pub index: u32,
+    pub start: Duration,
+    pub end: Duration,
+    pub text: String,
 }
 
 //  hours:minutes:seconds,milliseconds
