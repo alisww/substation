@@ -3,7 +3,7 @@ use nom::{
     branch::alt,
     bytes::complete::{is_not, tag, take_until, take_while},
     character::complete::{char, line_ending, not_line_ending, one_of, space1, u64 as decimal},
-    combinator::{map, not, opt, peek},
+    combinator::{consumed, map, not, opt, peek},
     multi::{many0, many_m_n, separated_list0},
     sequence::{delimited, pair, preceded, separated_pair, terminated, tuple},
     IResult,
@@ -508,7 +508,6 @@ pub fn subtitle<'a>(input: &'a str, definition: &'a Vec<String>) -> IResult<&'a 
 
     if !input.is_empty() {
         entry.text = input.to_owned();
-        // text_line(input).unwrap().1; // todo: don't
     }
 
     Ok((input, entry))
@@ -589,4 +588,8 @@ pub fn section(input: &str) -> IResult<&str, Section> {
             ))
         }
     }
+}
+
+pub fn section_with_input(input: &str) -> IResult<&str, (&str,Section)> {
+    consumed(section)(input)
 }
